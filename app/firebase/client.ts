@@ -5,12 +5,12 @@ import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
-  authDomain: "ai-intevriew.firebaseapp.com",
-  projectId: "ai-intevriew",
-  storageBucket: "ai-intevriew.firebasestorage.app",
-  messagingSenderId: "391122074547",
-  appId: "1:391122074547:web:f0085608862e49de1a69c6",
-  measurementId: "G-SK22ELYKSV",
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
