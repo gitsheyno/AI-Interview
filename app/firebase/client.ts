@@ -4,7 +4,7 @@ import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBoMdSoRA8ln3uNMfswTDbasCjydE7ywrw",
+  apiKey: process.env.API_KEY,
   authDomain: "ai-intevriew.firebaseapp.com",
   projectId: "ai-intevriew",
   storageBucket: "ai-intevriew.firebasestorage.app",
