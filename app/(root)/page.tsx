@@ -25,7 +25,7 @@ export default function Home() {
           className="max-sm:hidden"
         />
       </section>
-      <section className="flex- flex-col gap-6 mt-8">
+      <section className="flex flex-col gap-6 mt-8">
         <h2>Your Interviews</h2>
         <div className="interviews-section">
           {dummyInterviews.map((interview) => (
@@ -36,8 +36,10 @@ export default function Home() {
       </section>
       <section className="flex flex-col gap-6 mt-8">
         <h2>Take an Interview</h2>
-        <div className="interview-section">
-          <p>there are no interviews available</p>
+        <div className="interviews-section">
+          {dummyInterviews.map((interview) => (
+            <InterviewCard key={interview.id} {...interview} />
+          ))}
         </div>
       </section>
     </>
