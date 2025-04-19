@@ -11,6 +11,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import FormFieldCustom from "./FormFieldCustom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/app/firebase/client";
+import { sign } from "crypto";
+import { signUp } from "@/lib/actions/auth.action";
 type AuthFormProps = {
   type: "sign-in" | "sign-up";
 };
@@ -38,7 +42,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
 
     try {
@@ -47,6 +51,25 @@ const AuthForm = ({ type }: AuthFormProps) => {
         navigate.push("/");
         console.log("Signing up with", values);
       } else {
+        const { name, email, password } = values;
+
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+        const result = await signUp({
+          uid: userCredential.user.uid,
+          name: name!,
+          email,
+          password,
+        });
+
+        if (!result?.success) {
+          toast.error(result?.message);
+          return;
+        }
         toast.success("Account created successfully");
         navigate.push("/sign-in");
         console.log("Signing in with", values);
