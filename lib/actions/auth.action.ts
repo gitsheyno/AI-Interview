@@ -17,7 +17,15 @@ export async function signUp(params: SignUpParams) {
       };
     }
 
-    await db.collection("users").doc(uid).set({});
+    await db.collection("users").doc(uid).set({
+      name,
+      email,
+    });
+
+    return {
+      success: true,
+      message: "User created successfully",
+    };
   } catch (error: any) {
     console.error("Error signing up:", error);
 
@@ -63,6 +71,42 @@ export async function signIn(params: SignInParams) {
       message: "An error occurred during sign-in",
     };
   }
+}
+
+export async function getCurrentUser(): Promise<User | null> {
+  const cookieStore = await cookies();
+  const sessionCookie = cookieStore.get("session")?.value;
+
+  if (!sessionCookie) {
+    return null;
+  }
+
+  try {
+    const decodedClaims = await auth.verifySessionCookie(sessionCookie, true);
+
+    const userRecord = await db
+      .collection("users")
+      .doc(decodedClaims.uid)
+      .get();
+
+    if (!userRecord.exists) {
+      return null;
+    }
+
+    return {
+      ...userRecord.data(),
+      id: userRecord.id,
+    } as User;
+  } catch (error: any) {
+    console.error("Error getting current user:", error);
+    return null;
+  }
+}
+
+export async function isAthenticated() {
+  const user = await getCurrentUser();
+
+  return !!user;
 }
 
 export async function setSessionCookie(idToken: string) {
