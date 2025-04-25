@@ -15,6 +15,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/app/firebase/client";
 import { signIn, signUp } from "@/lib/actions/auth.action";
+import SubmitButton from "./SubmitButton";
 
 type AuthFormProps = {
   type: "sign-in" | "sign-up";
@@ -133,9 +134,10 @@ const AuthForm = ({ type }: AuthFormProps) => {
               type="password"
               placeholder="Your Password"
             />
-            <Button type="submit" className="btn">
-              {isSignIn ? "Sign In" : "Sign Up"}
-            </Button>
+            <SubmitButton
+              isSignIn={isSignIn}
+              isSubmitting={form.formState.isSubmitting}
+            />
           </form>
         </Form>
         <p className="text-center">
