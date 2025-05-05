@@ -1,4 +1,7 @@
-import { getInterviewByID } from "@/lib/actions/general.action";
+import {
+  getFeedbackByInterviewId,
+  getInterviewByID,
+} from "@/lib/actions/general.action";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { getCurrentUser } from "@/lib/actions/auth.action";
@@ -13,6 +16,11 @@ const InterviewDetailsPage = async ({ params }: RouteParams) => {
   if (!interview) {
     redirect("/");
   }
+
+  const feedback = await getFeedbackByInterviewId({
+    interviewId: id,
+    userId: user?.id as string,
+  });
   return (
     <>
       <div className="flex flex-row gap-4 justify-between">
@@ -42,7 +50,7 @@ const InterviewDetailsPage = async ({ params }: RouteParams) => {
         interviewId={id}
         type="interview"
         questions={interview.questions}
-        // feedbackId={feedback?.id}
+        feedbackId={feedback?.id}
       />
     </>
   );
