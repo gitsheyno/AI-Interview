@@ -24,6 +24,7 @@ const FeedbackPage = async ({ params }: RouteParams) => {
     interviewId: id,
     userId: user?.id as string,
   });
+  console.log(feedback, "feedback,", interview);
   return (
     <section className="section-feedback">
       <div className="flex flex-row justify-center">
